@@ -1,25 +1,17 @@
-import { ClerkProvider } from "@clerk/nextjs";
-import { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "../globals.css"
-
-export const metaData: Metadata = {
-  title: "threads",
-  description: "A custom threads app ",
-};
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${inter.className} bg-dark-1`}>{children}</body>
-      </html>
-    </ClerkProvider>
+    <div className={`${inter.className} bg-dark-1`}>
+      <div className="w-full flex justify-center items-center min-h-screen">
+        {children}
+      </div>
+    </div>
   );
 }
