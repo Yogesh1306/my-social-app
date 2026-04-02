@@ -5,6 +5,7 @@ import User from "../models/user.model";
 import { connectToDB } from "../mongoose"
 import Thread from "../models/thread.model";
 import { QueryFilter, SortOrder } from "mongoose";
+import Community from "../models/community.model";
 
 interface Params {
     userId: string,
@@ -34,20 +35,22 @@ export async function updateUser(
                 upsert: true
             }
         )
-        console.log({ user })
+
         if (path === '/profile/edit') {
             revalidatePath(path)
         }
     } catch (error: any) {
-        // throw new Error(`Failed to create/update user: ${error.message}`)
-        console.log(error.message)
+        throw new Error(`Failed to create/update user: ${error.message}`)
     }
 }
 
 export async function fetchUser(id: string) {
     try {
         connectToDB();
-        const user = await User.findOne({ clerkId: id })
+        const user = await User.findOne({ clerkId: id }).populate({
+            path: 'communities',
+            model: Community
+        })
         return user;
     }
     catch (error: any) {
@@ -57,21 +60,27 @@ export async function fetchUser(id: string) {
 
 export async function fetchUserPosts(userId: string) {
     connectToDB()
-    // TODO: Populate community
     try {
         // find all threads authored by user with given userId
         const threads = await User.findOne({ clerkId: userId }).populate({
             path: 'threads',
             model: Thread,
-            populate: {
-                path: 'children',
-                model: Thread,
-                populate: {
-                    path: 'author',
-                    model: User,
-                    select: 'name image clerkId'
+            populate: [
+                {
+                    path: 'children',
+                    model: Thread,
+                    populate: {
+                        path: 'author',
+                        model: User,
+                        select: 'name image clerkId'
+                    }
+                },
+                {
+                    path: 'community',
+                    model: Community,
+                    select: "_id id name image"
                 }
-            }
+            ]
         })
         return threads
     } catch (error: any) {
