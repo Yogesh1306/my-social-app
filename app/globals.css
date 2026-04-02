@@ -159,7 +159,6 @@
 }
 
 @layer components {
-  /* main */
 
   /* Head Text */
   .head-text {
@@ -275,7 +274,11 @@
   }
 }
 
-/* Shadcn Component Styles */
+@media (max-width: 767px) {
+  .org-switcher span:nth-child(2) {
+    display: none !important;
+  }
+}
 
 /* Tab */
 .tab {
