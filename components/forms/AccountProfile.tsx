@@ -114,7 +114,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   return (
     <form
       id="form-rhf-demo"
-      className="flex flex-col justify-start gap-10"
+      className="flex flex-col justify-start gap-10 md:w-100"
       onSubmit={form.handleSubmit(onSubmit)}
     >
       <FieldGroup>
@@ -138,7 +138,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                     width={96}
                     height={96}
                     priority
-                    className="rounded-full object-cover w-24 h-24 aspect-auto"
+                    className="rounded-full object-cover w-15 h-15 md:w-24 md:h-24 aspect-square"
                   />
                 ) : (
                   <Image
@@ -146,7 +146,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                     alt="profile photo"
                     width={24}
                     height={24}
-                    className=" object-contain w-24 h-24 aspect-auto"
+                    className="object-contain w-15 h-15 md:w-24 md:h-24 aspect-square"
                   />
                 )}
               </FieldLabel>
